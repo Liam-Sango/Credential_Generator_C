@@ -14,8 +14,7 @@ int Generate_raw_random_bytes(int Gen_amt, unsigned char rand_buffer[Gen_amt]) {
 
     // Check if RNG is properly seeded
     if (RAND_poll() != 1) {
-        unsigned char seed[16] = {0};  // Using zeroed seed as fallback
-        RAND_seed(seed, sizeof(seed));
+        return 1;
     }
 
     //Generates random bytes
@@ -36,6 +35,6 @@ int Generate_random_numbers(int Gen_amt, unsigned char rand_buffer[Gen_amt]) {
     }
 
     //Generates random bytes
-    int result = RAND_bytes(rand_buffer, Gen_amt);
+    int rand_bytes = RAND_bytes(rand_buffer, Gen_amt);
     return 0;
 };
