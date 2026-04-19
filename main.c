@@ -15,7 +15,7 @@ int main() {
     printf("NUMBERS:\n");
     for (int x = 0; x < 10; x++) {
         unsigned long long int number = Generate_random_number(lower, upper);
-        printf(" %u\n", number);
+        printf(" %llu\n", number);
     }
 
 }

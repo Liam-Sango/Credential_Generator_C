@@ -58,14 +58,14 @@ unsigned long long int Generate_random_number(int lower_range, int upper_range) 
 
         //Checks if the final number contains modulo bias, Regenrates 
         if (Generated_Number > Modulo_Limit) {
-            Generated_num_valid == false;
+            Generated_num_valid = false;
             continue;
         } else {
-            Generated_num_valid == true;
+            Generated_num_valid = true;
         }  
     }
 
-    Final_number = (Generated_Number % Modulo_Limit) + lower_range;
+    Final_number = (Generated_Number % Target_Range) + lower_range;
 
   return Final_number;
 }
