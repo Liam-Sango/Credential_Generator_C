@@ -1,5 +1,3 @@
 #include "../../../include/Core/Credential_Generator/Credential_Generator.h"
-#include "../../../include/Modules/random.h"
-
-
+#include "random/random.h"
 

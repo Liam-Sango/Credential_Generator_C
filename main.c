@@ -5,7 +5,8 @@
 #include <openssl/err.h>
 #include <openssl/evp.h>
 
-#include "include/Modules/random.h"
+#include "include/Core/Credential_Generator/Credential_Generator.h"
+#include "src/Core/Credential_Generator/random/random.h"
 
 
 

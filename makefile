@@ -13,13 +13,13 @@ OBJ_DIR := $(BUILD_DIR)/obj
 # Main executable
 TARGET := $(BIN_DIR)/main
 
-# Source files
+# Source files - Core tools are now self-contained
 SOURCES := main.c \
            src/Core/Credential_Generator/Credential_Generator.c \
+           src/Core/Credential_Generator/random/random.c \
            src/Core/Timezone_Manager/Timezone_Manager.c \
            src/Core/Webpage_Downloader/Webpage_Downloader.c \
-           src/Core/Writing_Anonymiser/Writing_Anonymiser.c \
-           src/Modules/random.c
+           src/Core/Writing_Anonymiser/Writing_Anonymiser.c
 
 # Object files
 OBJECTS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SOURCES))
@@ -33,11 +33,11 @@ $(BUILD_DIR) $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
 
 # Build subdirectories in OBJ_DIR
-$(OBJ_DIR)/src $(OBJ_DIR)/src/Core $(OBJ_DIR)/src/Core/Credential_Generator $(OBJ_DIR)/src/Core/Timezone_Manager $(OBJ_DIR)/src/Core/Webpage_Downloader $(OBJ_DIR)/src/Core/Writing_Anonymiser $(OBJ_DIR)/src/Modules: | $(OBJ_DIR)
+$(OBJ_DIR)/src $(OBJ_DIR)/src/Core $(OBJ_DIR)/src/Core/Credential_Generator $(OBJ_DIR)/src/Core/Credential_Generator/random $(OBJ_DIR)/src/Core/Timezone_Manager $(OBJ_DIR)/src/Core/Webpage_Downloader $(OBJ_DIR)/src/Core/Writing_Anonymiser: | $(OBJ_DIR)
 	@mkdir -p $@
 
 # Compile source files
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)/src $(OBJ_DIR)/src/Core $(OBJ_DIR)/src/Core/Credential_Generator $(OBJ_DIR)/src/Core/Timezone_Manager $(OBJ_DIR)/src/Core/Webpage_Downloader $(OBJ_DIR)/src/Core/Writing_Anonymiser $(OBJ_DIR)/src/Modules
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)/src $(OBJ_DIR)/src/Core $(OBJ_DIR)/src/Core/Credential_Generator $(OBJ_DIR)/src/Core/Credential_Generator/random $(OBJ_DIR)/src/Core/Timezone_Manager $(OBJ_DIR)/src/Core/Webpage_Downloader $(OBJ_DIR)/src/Core/Writing_Anonymiser
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 # Link executable
