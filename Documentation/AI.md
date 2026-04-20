@@ -3,6 +3,7 @@
 Used to test functions without modifying their functionality or generating additional code.
 Used to generate consise code comments to manually written functions
 Used to generate a working makefile for the project.
+Used to generate consise commit messages.
 
 # HOW AI WAS NOT USED IN THIS PROJECT
 

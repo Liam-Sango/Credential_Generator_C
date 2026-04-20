@@ -2,10 +2,4 @@
 #include "../../../include/Modules/random.h"
 
 
-int main () {
-    return 0;
-}
-
-
-
 
