@@ -4,6 +4,10 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include <unicode/ustring.h>
+#include <unicode/uchar.h>
+#include <unicode/ustdio.h>
+
 #include <locale.h>  
 
 #include "file.h"
@@ -53,32 +57,58 @@ return file_end;
 
 }
 
-char *get_random_file_line(char full_path[512])
-{
-    char *file_line = calloc(512, 1);
+UChar* get_random_UTF8_file_line (char full_path[512]) {
+
+    //Assigns the output variable
+    UChar* file_line[2048] = calloc(2048, sizeof(UChar));
+
     if (file_line == NULL) {
+        free(file_line);
         return NULL;
     }
 
-    if (!check_file_validity(full_path)) {
+    //opens the file
+    UFILE *U_FILE_PTR = u_fopen(full_path, "r", NULL, "UTF8");
+    if (U_FILE_PTR == NULL) {
         return NULL;
     }
 
-    FILE *fileptr = fopen(full_path, "r");
-
-    long int file_size = check_file_size(full_path);
+    // Get the size of the target file
+    FILE *fileptr = u_fgetfile(U_FILE_PTR);
+    fseek(fileptr, 0, SEEK_END);
+    long int file_size = ftell(fileptr);
     fseek(fileptr, 0, SEEK_SET);
 
-    unsigned long long int temp_line_position = Generate_random_number(0, file_size);
-    if (temp_line_position > 2147483647) {
+     if (file_size <= 0) {
+        u_fclose(U_FILE_PTR);
         return NULL;
     }
-    long int random_line_position = temp_line_position;
+    
+    // Generate random number
+    unsigned long long int random_line_num = Generate_random_number(0, file_size);
 
-    fseek(fileptr, random_line_position, SEEK_CUR);
-    fgets(file_line, 512, fileptr);
-    fclose(fileptr);
+    //Navigate to that part of the file
+    u_fseek(U_FILE_PTR, (unsigned long long int)random_line_num, SEEK_SET);
+    
+    //opens the file
+    u_fgets(*file_line, sizeof(file_line), U_FILE_PTR);
 
-    return file_line;
+
+    //Converts the  line output to UTF8 FORMATTING
+     UChar* output[2048] = calloc(2048, sizeof(UChar));
+     int UTF_8_error_code;
+
+     if (output == NULL) {
+        fclose(U_FILE_PTR);
+        free(file_line);
+        free(output);
+        return NULL;
+    }
+
+    u_strToUTF8 (output, 2048, NULL, file_line, -1, &UTF_8_error_code);
+
+    fclose(U_FILE_PTR);
+    free(file_line);
+    return output;
 }
 

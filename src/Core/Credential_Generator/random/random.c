@@ -3,17 +3,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
 #include <wchar.h>
-#include <locale.h>  
+#include <locale.h> 
 
 #include <openssl/rand.h>
 #include <openssl/err.h>
+
+#include <unicode/utypes.h>
+#include <unicode/ustring.h>
+#include <unicode/uchar.h>
+#include <unicode/utf8.h>
 
 #include "random.h" 
 
 
 //Global variables
-
 
 //Functions
 int Generate_raw_random_bytes(int Gen_amt, unsigned char* rand_buffer) {
@@ -66,8 +71,5 @@ unsigned long long int Generate_random_number(int lower_range, int upper_range) 
     return Final_number;
 }
 
-wchar_t* Generate_Random_UTF8_string (int string_length, int lower_char_limit, int upper_char_limit, int char_list_length) {
-    setlocale(LC_ALL, "");
-
-    return NULL;
+UChar* Generate_Random_UTF16_string (int string_length, int lower_char_limit, int upper_char_limit, int char_list_length) {
 }
