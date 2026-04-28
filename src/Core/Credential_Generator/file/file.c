@@ -57,10 +57,10 @@ return file_end;
 
 }
 
-UChar* get_random_UTF8_file_line (char full_path[512]) {
+char* get_random_UTF8_file_line (char full_path[512]) {
 
     //Assigns the output variable
-    UChar* file_line[2048] = calloc(2048, sizeof(UChar));
+    UChar* file_line = calloc(2048, sizeof(UChar));
 
     if (file_line == NULL) {
         free(file_line);
@@ -88,18 +88,18 @@ UChar* get_random_UTF8_file_line (char full_path[512]) {
     unsigned long long int random_line_num = Generate_random_number(0, file_size);
 
     //Navigate to that part of the file
-    u_fseek(U_FILE_PTR, (unsigned long long int)random_line_num, SEEK_SET);
+    fseek(fileptr, (unsigned long long int)random_line_num, SEEK_SET);
     
     //opens the file
-    u_fgets(*file_line, sizeof(file_line), U_FILE_PTR);
+    u_fgets(file_line, sizeof(file_line), U_FILE_PTR);
 
 
     //Converts the  line output to UTF8 FORMATTING
-     UChar* output[2048] = calloc(2048, sizeof(UChar));
+     char* output = calloc(2048, sizeof(UChar));
      int UTF_8_error_code;
 
      if (output == NULL) {
-        fclose(U_FILE_PTR);
+        u_fclose(U_FILE_PTR);
         free(file_line);
         free(output);
         return NULL;
@@ -107,7 +107,7 @@ UChar* get_random_UTF8_file_line (char full_path[512]) {
 
     u_strToUTF8 (output, 2048, NULL, file_line, -1, &UTF_8_error_code);
 
-    fclose(U_FILE_PTR);
+    u_fclose(U_FILE_PTR);
     free(file_line);
     return output;
 }
