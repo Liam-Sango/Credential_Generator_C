@@ -121,19 +121,42 @@ else if (Lower_Char_Limit <= 0xFDEF && Upper_Char_Limit >= 0xFDD0) {
 else if (Lower_Char_Limit <= 0xE007F && Upper_Char_Limit >= 0xE0000) {
     User_range_invalid = true;
 }
-// 9. Overlap with Non-characters ending in FFFE or FFFF on ANY plane
-else if (
-    (Lower_Char_Limit >> 16) != (Upper_Char_Limit >> 16) || 
-    (Lower_Char_Limit & 0xFFFF) >= 0xFFFE || 
-    (Upper_Char_Limit & 0xFFFF) >= 0xFFFE
-) {
+
+// Check if lower or upper bound itself is a non-character (FFFE/FFFF in any plane)
+bool lower_is_nonchar = ((Lower_Char_Limit & 0xFFFE) == 0xFFFE);
+bool upper_is_nonchar = ((Upper_Char_Limit & 0xFFFE) == 0xFFFE);
+
+// Check if range spans any non-character (FFFE or FFFF in planes 0-16)
+bool spans_nonchar = false;
+for (int plane = 0; plane <= 16; plane++) {
+    UChar32 base = (UChar32)plane * 0x10000;
+    if (Lower_Char_Limit <= base + 0xFFFE && base + 0xFFFE <= Upper_Char_Limit) {
+        spans_nonchar = true;
+        break;
+    }
+    if (Lower_Char_Limit <= base + 0xFFFF && base + 0xFFFF <= Upper_Char_Limit) {
+        spans_nonchar = true;
+        break;
+    }
+}
+
+if (lower_is_nonchar || upper_is_nonchar || spans_nonchar) {
     User_range_invalid = true;
 }
 
 // Proceed with generation only if (User_range_invalid == false)
-if (User_range_invalid = true) {
+if (User_range_invalid == true) {
     return NULL;
 }
+
+//Allocates our string buffer & Additional variables
+int32_t capacity = (string_length * 4) + 1;
+char *buffer = malloc(capacity);
+if (!buffer) return NULL;
+
+int32_t index = 0;
+bool is_error = false;
+
 
 // FOR LOOP (String length in chars.)
 for (int x = 0; x < string_length; x++) {
@@ -142,30 +165,32 @@ for (int x = 0; x < string_length; x++) {
 UChar32 current_char = Generate_random_number(Lower_Char_Limit, Upper_Char_Limit);
 
 //Validate the generated code point
-if (current_char == NULL){
+if (current_char == 1){
+    free (buffer);
     return NULL;
 }
 if (current_char >= Lower_Char_Limit && current_char <= Upper_Char_Limit) {
-    continue;
 } else {
+    free(buffer);
     return NULL;
 }
+
 if (current_char >= 0xD800 && current_char <= 0xDFFF) {
+    free(buffer);
     return NULL;
-} else {
-    continue;
-
 }
 
+//Add the UTF8 char to the finished string
+U8_APPEND (buffer, index, capacity, current_char, is_error);
 
+if (is_error == true) {
+    free(buffer);
+    return NULL;
 }
-
-
-
-
-//Validate the generated code point
-//Encode the generated code point to UTF8 
-//Add the UTF8 char to the fnished string
+}
 
 //Return the finished string.
+buffer[index] = '\0';  // Null-terminate
+return buffer;  // Return the same buffer you've been building
+
 }
