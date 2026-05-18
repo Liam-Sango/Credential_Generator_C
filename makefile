@@ -15,7 +15,6 @@ TARGET := $(BIN_DIR)/main
 
 # Source files
 SOURCES := main.c \
-           src/Core/Credential_Generator/Credential_Generator.c \
            src/Core/Credential_Generator/random/random.c \
            src/Core/Credential_Generator/file/file.c
 

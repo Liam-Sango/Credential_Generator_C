@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-#include <openssl/rand.h>
-#include <openssl/err.h>
-#include <openssl/evp.h>
-
-#include "include/Core/Credential_Generator/Credential_Generator.h"
 #include "src/Core/Credential_Generator/random/random.h"
 
-
-
-int main() {  
-    int lower = 1;
-    int upper = 255;
-    printf("NUMBERS:\n");
-    for (int x = 0; x < 10; x++) {
-        unsigned long long int number = Generate_random_number(lower, upper);
-        printf(" %llu\n", number);
+int main(int argc, char* argv[]) {
+    if (argc < 3) {
+        printf("Usage: %s <wordlist_path> <phrase_length>\n", argv[0]);
+        return 1;
     }
 
+    char* phrase = Generate_Random_Phrase(argv[1], atoi(argv[2]));
+    if (!phrase) {
+        printf("Failed to generate random phrase.\n");
+        return 1;
+    }
+    printf("%s\n", phrase);
+    free(phrase);
+    return 0;
 }

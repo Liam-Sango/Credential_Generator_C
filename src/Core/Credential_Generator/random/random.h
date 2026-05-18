@@ -13,4 +13,7 @@ unsigned long long int Generate_random_number(int lower_range, int upper_range);
 //Generates random UTF8 Unicode strings between a user defined range
 char* Generate_Random_UTF8_string(int string_length, UChar32 Lower_Char_Limit, UChar32 Upper_Char_Limit);
 
+//Generates a random phrase string from a file accessed wordlist
+char* Generate_Random_Phrase(char file_path[512], int phrase_length);
+
 #endif // CREDENTIAL_GENERATOR_RANDOM_H
