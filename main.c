@@ -6,6 +6,16 @@
 #include "src/Core/Credential_Generator/random/random.h"
 #include "src/Core/Credential_Generator/file/file.h"
 
+char* Username_generator();
+char* password_generator();
+char* Passphrase_generator();
+char* Full_Name_generator();
+char* date_time_Generator();
+
+int main() {
+//Main CLI will go here.
+}
+
 static char* trim_whitespace(char* str) {
 	if (!str) return NULL;
 
@@ -18,16 +28,6 @@ static char* trim_whitespace(char* str) {
 	*(end + 1) = '\0';
 
 	return str;
-}
-
-char* Username_generator();
-char* password_generator();
-char* Passphrase_generator();
-char* Full_Name_generator();
-char* date_time_Generator();
-
-int main() {
-//Main CLI will go here.
 }
 
 //Phrase generator, UTF8 string generator, Random number generator
@@ -61,8 +61,7 @@ char* Username_generator() {
 
 // UTF8 string Generator
 //FORMAT: Random_String (Defined char set)
-char* password_generator() {
-	int password_length = 20;
+char* password_generator(int password_length) {
 	UChar32 lower_limit = 0x21;
 	UChar32 upper_limit = 0x7E;
 
@@ -72,10 +71,9 @@ char* password_generator() {
 
 // Phrase generator
 //FORMAT: Random_phrase
-char* Passphrase_generator() {
-	int phrase_word_count = 6;
+char* Passphrase_generator(int word_count) {
 
-	char* phrase = Generate_Random_Phrase("Files/passphrase_list.txt", phrase_word_count);
+	char* phrase = Generate_Random_Phrase("Files/passphrase_list.txt", word_count);
 	if (!phrase) return NULL;
 
 	char* trimmed = trim_whitespace(phrase);
@@ -121,23 +119,4 @@ char* Full_Name_generator() {
 	free(surname);
 
 	return full_name;
-}
-
-//Random Number generator
-//FORMAT: Random number
-char* date_time_Generator() {
-	unsigned long long int year = Generate_random_number(1970, 2026);
-	unsigned long long int month = Generate_random_number(1, 12);
-	unsigned long long int day = Generate_random_number(1, 28);
-	unsigned long long int hour = Generate_random_number(0, 23);
-	unsigned long long int minute = Generate_random_number(0, 59);
-	unsigned long long int second = Generate_random_number(0, 59);
-
-	char* datetime = malloc(20);
-	if (!datetime) return NULL;
-
-	snprintf(datetime, 20, "%04llu-%02llu-%02llu %02llu:%02llu:%02llu",
-		year, month, day, hour, minute, second);
-
-	return datetime;
 }
