@@ -4,10 +4,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include <unicode/ustring.h>
-#include <unicode/uchar.h>
-#include <unicode/ustdio.h>
-
 #include <locale.h>  
 
 #include "file.h"
@@ -59,56 +55,40 @@ return file_end;
 
 char* get_random_UTF8_file_line (char full_path[512]) {
 
-    //Assigns the output variable
-    UChar* file_line = calloc(2048, sizeof(UChar));
+    FILE *fileptr = fopen(full_path, "r");
+    if (fileptr == NULL) return NULL;
 
-    if (file_line == NULL) {
-        free(file_line);
-        return NULL;
-    }
-
-    //opens the file
-    UFILE *U_FILE_PTR = u_fopen(full_path, "r", NULL, "UTF8");
-    if (U_FILE_PTR == NULL) {
-        return NULL;
-    }
-
-    // Get the size of the target file
-    FILE *fileptr = u_fgetfile(U_FILE_PTR);
     fseek(fileptr, 0, SEEK_END);
     long int file_size = ftell(fileptr);
-    fseek(fileptr, 0, SEEK_SET);
+    if (file_size <= 0) { fclose(fileptr); return NULL; }
 
-     if (file_size <= 0) {
-        u_fclose(U_FILE_PTR);
-        return NULL;
-    }
-    
-    // Generate random number
     unsigned long long int random_line_num = Generate_random_number(0, file_size);
+    fseek(fileptr, random_line_num, SEEK_SET);
 
-    //Navigate to that part of the file
-    fseek(fileptr, (unsigned long long int)random_line_num, SEEK_SET);
-    
-    //opens the file
-    u_fgets(file_line, sizeof(file_line), U_FILE_PTR);
-
-
-    //Converts the  line output to UTF8 FORMATTING
-     char* output = calloc(2048, sizeof(UChar));
-     int UTF_8_error_code;
-
-     if (output == NULL) {
-        u_fclose(U_FILE_PTR);
-        free(file_line);
-        free(output);
-        return NULL;
+    if (random_line_num > 0) {
+        int c;
+        while ((c = fgetc(fileptr)) != EOF && c != '\n');
+        if (c == EOF) fseek(fileptr, 0, SEEK_SET);
     }
 
-    u_strToUTF8 (output, 2048, NULL, file_line, -1, &UTF_8_error_code);
+    char* output = calloc(2048, 1);
+    if (output == NULL) { fclose(fileptr); return NULL; }
 
-    u_fclose(U_FILE_PTR);
-    free(file_line);
+    if (fgets(output, 2048, fileptr) == NULL) {
+        fseek(fileptr, 0, SEEK_SET);
+        if (fgets(output, 2048, fileptr) == NULL) {
+            free(output);
+            fclose(fileptr);
+            return NULL;
+        }
+    }
+
+    size_t len = strlen(output);
+    while (len > 0 && (output[len - 1] == '\n' || output[len - 1] == '\r')) {
+        output[--len] = '\0';
+    }
+
+    fclose(fileptr);
     return output;
 }
 
