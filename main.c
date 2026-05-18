@@ -84,8 +84,35 @@ char* Passphrase_generator() {
 
 // Phrase generator
 // FORMAT: Random_phrase_1, Random_phrase_2, Random_phrase_3
-void Full_Name_generator () {
-    return 0;
+char* Full_Name_generator() {
+	char* first = NULL;
+	char* middle = NULL;
+	char* surname = NULL;
+	char* full_name = NULL;
+
+	first = get_random_UTF8_file_line("Files/First_names.txt");
+	if (!first) return NULL;
+	trim_whitespace(first);
+
+	middle = get_random_UTF8_file_line("Files/Middle_name.txt");
+	if (!middle) { free(first); return NULL; }
+	trim_whitespace(middle);
+
+	surname = get_random_UTF8_file_line("Files/Surname_list.txt");
+	if (!surname) { free(first); free(middle); return NULL; }
+	trim_whitespace(surname);
+
+	size_t total_len = strlen(first) + strlen(middle) + strlen(surname) + 4;
+	full_name = malloc(total_len);
+	if (!full_name) { free(first); free(middle); free(surname); return NULL; }
+
+	snprintf(full_name, total_len, "%s %s %s", first, middle, surname);
+
+	free(first);
+	free(middle);
+	free(surname);
+
+	return full_name;
 }
 
 //Random Number generator
