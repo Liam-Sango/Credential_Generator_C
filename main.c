@@ -20,6 +20,12 @@ static char* trim_whitespace(char* str) {
 	return str;
 }
 
+char* Username_generator();
+char* password_generator();
+char* Passphrase_generator();
+char* Full_Name_generator();
+char* date_time_Generator();
+
 int main() {
 	char* username = Username_generator();
 	char* password = password_generator();
@@ -92,11 +98,13 @@ char* Passphrase_generator() {
 
 	char* trimmed = trim_whitespace(phrase);
 	if (trimmed != phrase) {
-		char* result = strdup(trimmed);
-		free(phrase);
-		return result;
-	}
-
+		size_t len = strlen(trimmed) + 1;
+		char* result = malloc(len);
+		if (result) {
+			memcpy(result, trimmed, len);
+		}
+	return phrase;
+}
 	return phrase;
 }
 
