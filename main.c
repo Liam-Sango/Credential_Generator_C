@@ -66,8 +66,20 @@ char* password_generator() {
 
 // Phrase generator
 //FORMAT: Random_phrase
-void Passphrase_generator () {
-    return 0;
+char* Passphrase_generator() {
+	int phrase_word_count = 6;
+
+	char* phrase = Generate_Random_Phrase("Files/passphrase_list.txt", phrase_word_count);
+	if (!phrase) return NULL;
+
+	char* trimmed = trim_whitespace(phrase);
+	if (trimmed != phrase) {
+		char* result = strdup(trimmed);
+		free(phrase);
+		return result;
+	}
+
+	return phrase;
 }
 
 // Phrase generator
