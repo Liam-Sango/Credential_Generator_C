@@ -13,7 +13,48 @@ char* Full_Name_generator();
 char* date_time_Generator();
 
 int main() {
-//Main CLI will go here.
+	    printf("EXAMPLE\n");
+
+
+		//Take user input
+		int selector_buffer = 0;
+
+		while (selector_buffer == 0) {;
+			scanf ("%d", &selector_buffer);
+
+			if (selector_buffer >= 1 && selector_buffer <= 6) {
+				break;
+				
+			} else {
+				(selector_buffer = 0);
+			}
+		}
+
+		//use switch statement to seperate menus.
+		switch  (selector_buffer)
+		{
+		case 1:
+			printf("Username_Generator");
+			break;
+		case 2:
+		    printf("Password Generator");
+			break;
+		case 3:
+			printf("Passphrase Generator");
+			break;
+		case 4:
+			printf("Full_Name_Generator");
+			break;
+		case 5:
+			printf("Number Generator");
+			break;
+		case 6:
+			printf("Unicode String generator");
+			break;	
+		default:
+			break;
+		}
+return 0;
 }
 
 static char* trim_whitespace(char* str) {
