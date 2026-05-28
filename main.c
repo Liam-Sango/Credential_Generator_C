@@ -6,15 +6,15 @@
 #include "src/Core/Credential_Generator/random/random.h"
 #include "src/Core/Credential_Generator/file/file.h"
 
+
+
 char* Username_generator();
-char* password_generator();
-char* Passphrase_generator();
+char* password_generator(int password_length);
+char* Passphrase_generator(int wordcount);
 char* Full_Name_generator();
-char* date_time_Generator();
 
 int main() {
 	    printf("EXAMPLE\n");
-
 
 		//Take user input
 		int selector_buffer = 0;
@@ -35,22 +35,42 @@ int main() {
 		{
 		case 1:
 			printf("Username_Generator");
+			char* username = Username_generator();
+			printf ("\n%s\n", username);
 			break;
+
 		case 2:
 		    printf("Password Generator");
+			int password_length = 20;
+			char* password = password_generator(password_length);
+			printf ("\n%s\n", password);
 			break;
+
 		case 3:
 			printf("Passphrase Generator");
+			int passphrase_length = 5;
+			char* passphrase = Passphrase_generator(passphrase_length);
+			printf ("\n%s\n", passphrase);
 			break;
+
 		case 4:
 			printf("Full_Name_Generator");
+			char* full_name = Full_Name_generator();
+			printf ("\n%s\n", full_name);
 			break;
+
 		case 5:
-			printf("Number Generator");
+			printf("Number generator");
 			break;
+
 		case 6:
 			printf("Unicode String generator");
+			break;
+
+		case 7:
+		    printf("Custom phrase generator");
 			break;	
+
 		default:
 			break;
 		}
@@ -78,11 +98,11 @@ char* Username_generator() {
 	char* word2 = NULL;
 	char* username = NULL;
 
-	word1 = get_random_UTF8_file_line("Files/username_word_list.txt");
+	word1 = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt");
 	if (!word1) return NULL;
 	trim_whitespace(word1);
 
-	word2 = get_random_UTF8_file_line("Files/username_word_list.txt");
+	word2 = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt");
 	if (!word2) { free(word1); return NULL; }
 	trim_whitespace(word2);
 
@@ -114,7 +134,7 @@ char* password_generator(int password_length) {
 //FORMAT: Random_phrase
 char* Passphrase_generator(int word_count) {
 
-	char* phrase = Generate_Random_Phrase("Files/passphrase_list.txt", word_count);
+	char* phrase = Generate_Random_Phrase("/home/anon/Personal/Code/Credential_Generator_C/Files/passphrase_list.txt", word_count);
 	if (!phrase) return NULL;
 
 	char* trimmed = trim_whitespace(phrase);
@@ -129,23 +149,23 @@ char* Passphrase_generator(int word_count) {
 	return phrase;
 }
 
-// Phrase generator
-// FORMAT: Random_phrase_1, Random_phrase_2, Random_phrase_3
+// Full name generator
+// FORMAT: First name Middle name Surname
 char* Full_Name_generator() {
 	char* first = NULL;
 	char* middle = NULL;
 	char* surname = NULL;
 	char* full_name = NULL;
 
-	first = get_random_UTF8_file_line("Files/First_names.txt");
+	first = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/First_names.txt");
 	if (!first) return NULL;
 	trim_whitespace(first);
 
-	middle = get_random_UTF8_file_line("Files/Middle_name.txt");
+	middle = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Middle_name.txt");
 	if (!middle) { free(first); return NULL; }
 	trim_whitespace(middle);
 
-	surname = get_random_UTF8_file_line("Files/Surname_list.txt");
+	surname = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Surname_list.txt");
 	if (!surname) { free(first); free(middle); return NULL; }
 	trim_whitespace(surname);
 
