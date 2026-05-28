@@ -6,12 +6,11 @@
 #include "src/Core/Credential_Generator/random/random.h"
 #include "src/Core/Credential_Generator/file/file.h"
 
-
-
 char* Username_generator();
 char* password_generator(int password_length);
 char* Passphrase_generator(int wordcount);
 char* Full_Name_generator();
+static char* trim_whitespace(char* str);
 
 int main() {
 	    printf("EXAMPLE\n");
@@ -22,7 +21,7 @@ int main() {
 		while (selector_buffer == 0) {;
 			scanf ("%d", &selector_buffer);
 
-			if (selector_buffer >= 1 && selector_buffer <= 6) {
+			if (selector_buffer >= 1 && selector_buffer <= 8) {
 				break;
 				
 			} else {
@@ -60,15 +59,39 @@ int main() {
 			break;
 
 		case 5:
-			printf("Number generator");
+		    printf("Number generator");
+
+		    int upper_limit = 10000;
+			int lower_limit = 1;
+			
+			unsigned long long int temp_number = Generate_random_number(lower_limit, upper_limit);
+			int number = temp_number;
+
+			printf("\n%d\n", number);
 			break;
 
 		case 6:
 			printf("Unicode String generator");
+
+			UChar32 str_lower_limit = 0x21;
+	        UChar32 str_upper_limit = 0x7E;
+			int str_length = 20;
+
+			char* rand_string = Generate_Random_UTF8_string(str_length, str_lower_limit, str_upper_limit);
+
+			printf("\n%s\n", rand_string);
 			break;
 
 		case 7:
 		    printf("Custom phrase generator");
+
+			int custom_phrase_length = 5;
+			char custom_file_path[512] = "/home/anon/Personal/Code/Credential_Generator_C/Files/passphrase_list.txt";
+
+			char* phrase_buffer = Generate_Random_Phrase(custom_file_path, custom_phrase_length);
+			char* phrase = trim_whitespace(phrase_buffer);
+
+			printf("\n\n%s\n", phrase);
 			break;	
 
 		default:
@@ -77,6 +100,7 @@ int main() {
 return 0;
 }
 
+//Whitespace trimmer
 static char* trim_whitespace(char* str) {
 	if (!str) return NULL;
 
