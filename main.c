@@ -13,7 +13,19 @@ char* Full_Name_generator();
 static char* trim_whitespace(char* str);
 
 int main() {
-	    printf("EXAMPLE\n");
+	    //Welcome the user
+	    printf("Welcome to the credential generator\n");
+		printf("\n Please Select a menu item\n\n");
+
+		printf(" 1: Username Generator ");
+		printf("\n 2: Password Generator ");
+		printf("\n 3: Passphrase Generator ");
+		printf("\n 4: Full Name Generator ");
+		printf("\n 5: Random Number Generator ");
+		printf("\n 6: Custom Unicode String generator ");
+		printf("\n 7: Custom phrase Generator ");
+
+		printf("\n\n Your Selection: ");
 
 		//Take user input
 		int selector_buffer = 0;
@@ -34,7 +46,7 @@ int main() {
 		{
 		case 1:
 			printf("Username_Generator");
-			char* username = Username_generator();
+			char* username = Username_generator("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt");
 			printf ("\n%s\n", username);
 			break;
 
@@ -117,21 +129,46 @@ static char* trim_whitespace(char* str) {
 
 //Phrase generator, UTF8 string generator, Random number generator
 //FORMAT: Random_phrase_1, Random_Phrase_2, Random_number
-char* Username_generator() {
+char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]) {
 	char* word1 = NULL;
 	char* word2 = NULL;
 	char* username = NULL;
 
-	word1 = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt");
+	//Word 1
+	bool path_1_validity = check_file_validity(wordlist_path_1);
+
+	char* path_1 = NULL;
+	path_1 = wordlist_path_1;
+
+	if(wordlist_path_1 == NULL || path_1_validity == false) {
+		wordlist_path_1 == "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt";
+	}	
+
+	word1 = get_random_UTF8_file_line(wordlist_path_1);
 	if (!word1) return NULL;
 	trim_whitespace(word1);
 
-	word2 = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt");
+
+    //Word 2
+
+	bool path_2_validity = check_file_validity(wordlist_path_2);
+
+    char* path_2 = NULL;
+	path_2 = wordlist_path_2;
+
+	if (wordlist_path_2 == NULL || path_2_validity == false) {
+		wordlist_path_2 == "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt";
+	}
+
+	word2 = get_random_UTF8_file_line(wordlist_path_2);
 	if (!word2) { free(word1); return NULL; }
 	trim_whitespace(word2);
 
+
+    //RNG
 	unsigned long long int number = Generate_random_number(0, 9999);
 
+	//Assembly
 	size_t total_len = strlen(word1) + strlen(word2) + 20;
 	username = malloc(total_len);
 	if (!username) { free(word1); free(word2); return NULL; }
