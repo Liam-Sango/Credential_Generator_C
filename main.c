@@ -23,7 +23,6 @@ int main() {
 		printf("\n 4: Full Name Generator ");
 		printf("\n 5: Random Number Generator ");
 		printf("\n 6: Custom Unicode String generator ");
-		printf("\n 7: Custom phrase Generator ");
 
 		printf("\n\n Your Selection: ");
 
@@ -33,7 +32,7 @@ int main() {
 		while (selector_buffer == 0) {;
 			scanf ("%d", &selector_buffer);
 
-			if (selector_buffer >= 1 && selector_buffer <= 8) {
+			if (selector_buffer >= 1 && selector_buffer <= 6) {
 				break;
 				
 			} else {
@@ -45,7 +44,8 @@ int main() {
 		switch  (selector_buffer)
 		{
 		case 1:
-			printf("Username_Generator\n");
+			printf("\nYou selected: Username generator!\n");
+			printf("Good Choice!\n");
 
 			char username_path_1[512] = "";
 			char username_path_2[512] = "";
@@ -58,11 +58,12 @@ int main() {
 			scanf("%s", &username_path_2);
 
 			char* username = Username_generator(username_path_1, username_path_2);
-			printf ("\n%s\n", username);
+			printf ("\nYour password: %s\n", username);
 			break;
 
 		case 2:
-		    printf("\nPassword Generator\n");
+		    printf("\nYou selected: Password generator!\n");
+			printf("Good Choice!\n");
 			int password_length;
 
 			printf("\nEnter your password length\n");
@@ -78,10 +79,21 @@ int main() {
 			break;
 
 		case 3:
-			printf("Passphrase Generator");
+			printf("\nYou selected: Passphrase generator!\n");
+			printf("Good Choice!\n");
 
-			int passphrase_length = 5;
+			int passphrase_length;
+
+			printf("\nHow many words do you want in your passphrase?\n");
+			printf("Desired Length:");
+			scanf("%d", &passphrase_length);
+
 			char Passphase_file_path_1[512] = "";
+
+			printf("\nEnter the full path to your wordlist\n");
+			printf("Wordlist path: ");
+			scanf("%s", &Passphase_file_path_1);
+
 			char* passphrase = Passphrase_generator(passphrase_length, Passphase_file_path_1);
 			printf ("\n%s\n", passphrase);
 			break;
@@ -115,19 +127,6 @@ int main() {
 
 			printf("\n%s\n", rand_string);
 			break;
-
-		case 7:
-		    printf("Custom phrase generator");
-
-			int custom_phrase_length = 5;
-			char custom_file_path[512] = "/home/anon/Personal/Code/Credential_Generator_C/Files/passphrase_list.txt";
-
-			char* phrase_buffer = Generate_Random_Phrase(custom_file_path, custom_phrase_length);
-			char* phrase = trim_whitespace(phrase_buffer);
-
-			printf("\n\n%s\n", phrase);
-			break;	
-
 		default:
 			break;
 		}
