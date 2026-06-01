@@ -8,7 +8,7 @@
 
 char* Username_generator();
 char* password_generator(int password_length);
-char* Passphrase_generator(int wordcount);
+char* Passphrase_generator (int wordcount, char wordlist_path_1[512]);
 char* Full_Name_generator();
 static char* trim_whitespace(char* str);
 
@@ -45,22 +45,44 @@ int main() {
 		switch  (selector_buffer)
 		{
 		case 1:
-			printf("Username_Generator");
-			char* username = Username_generator("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt");
+			printf("Username_Generator\n");
+
+			char username_path_1[512] = "";
+			char username_path_2[512] = "";
+
+			printf("\nEnter path 1\n\n");
+			printf("path 1: ");
+			scanf("%s", &username_path_1);
+            printf("\nEnter path 2\n\n");
+			printf("path 1: ");
+			scanf("%s", &username_path_2);
+
+			char* username = Username_generator(username_path_1, username_path_2);
 			printf ("\n%s\n", username);
 			break;
 
 		case 2:
-		    printf("Password Generator");
-			int password_length = 20;
+		    printf("\nPassword Generator\n");
+			int password_length;
+
+			printf("\nEnter your password length\n");
+			printf("length: ");
+			scanf("%d", &password_length);
+
+			if (password_length >! 0 && password_length <! 512) {
+				password_length == 20;
+			}
+
 			char* password = password_generator(password_length);
-			printf ("\n%s\n", password);
+			printf ("\nYour Password: %s\n", password);
 			break;
 
 		case 3:
 			printf("Passphrase Generator");
+
 			int passphrase_length = 5;
-			char* passphrase = Passphrase_generator(passphrase_length);
+			char Passphase_file_path_1[512] = "";
+			char* passphrase = Passphrase_generator(passphrase_length, Passphase_file_path_1);
 			printf ("\n%s\n", passphrase);
 			break;
 
@@ -193,9 +215,9 @@ char* password_generator(int password_length) {
 
 // Phrase generator
 //FORMAT: Random_phrase
-char* Passphrase_generator(int word_count) {
+char* Passphrase_generator(int word_count, char wordlist_path[512]) {
 
-	char* phrase = Generate_Random_Phrase("/home/anon/Personal/Code/Credential_Generator_C/Files/passphrase_list.txt", word_count);
+	char* phrase = Generate_Random_Phrase(wordlist_path, word_count);
 	if (!phrase) return NULL;
 
 	char* trimmed = trim_whitespace(phrase);
