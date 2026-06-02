@@ -9,7 +9,7 @@
 char* Username_generator();
 char* password_generator(int password_length);
 char* Passphrase_generator (int wordcount, char wordlist_path_1[512]);
-char* Full_Name_generator();
+char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_path, char* surname_file_path);
 static char* trim_whitespace(char* str);
 
 int main() {
@@ -99,13 +99,16 @@ int main() {
 			break;
 
 		case 4:
-			printf("Full_Name_Generator");
-			char* full_name = Full_Name_generator();
+			printf("\nYou selected: Full Name generator!\n");
+			printf("Good Choice!\n");
+
+			
+			char* full_name = Full_Name_generator("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt");
 			printf ("\n%s\n", full_name);
 			break;
 
 		case 5:
-		    printf("Number generator");
+		    printf("Random Number generator");
 
 		    int upper_limit = 10000;
 			int lower_limit = 1;
@@ -233,23 +236,50 @@ char* Passphrase_generator(int word_count, char wordlist_path[512]) {
 
 // Full name generator
 // FORMAT: First name Middle name Surname
-char* Full_Name_generator() {
+char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_path, char* surname_file_path) {
 	char* first = NULL;
 	char* middle = NULL;
 	char* surname = NULL;
 	char* full_name = NULL;
 
-	first = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/First_names.txt");
+	bool first_validity;
+	first_validity = check_file_validity(first_name_file_path);
+
+	if(first_validity = true) {
+		first = get_random_UTF8_file_line(first_name_file_path);
+	} else {
+		first = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/First_names.txt");
+	}
+
 	if (!first) return NULL;
 	trim_whitespace(first);
 
-	middle = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Middle_name.txt");
+
+
+	bool middle_validity;
+	middle_validity = check_file_validity(middle_name_file_path);
+
+	if(middle_validity = true) {
+		middle = get_random_UTF8_file_line(middle_name_file_path);
+	} else {
+		middle = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Middle_name.txt");
+	}
+
 	if (!middle) { free(first); return NULL; }
 	trim_whitespace(middle);
 
-	surname = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Surname_list.txt");
+
+	bool last_validity = false;
+
+	last_validity = check_file_validity(surname_file_path);
+	if(last_validity = true) {
+		surname = get_random_UTF8_file_line(surname_file_path);
+	} else {
+		surname = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Surname_list.txt");
+	}
 	if (!surname) { free(first); free(middle); return NULL; }
 	trim_whitespace(surname);
+
 
 	size_t total_len = strlen(first) + strlen(middle) + strlen(surname) + 4;
 	full_name = malloc(total_len);
