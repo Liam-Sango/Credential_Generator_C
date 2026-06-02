@@ -6,7 +6,7 @@
 #include "src/Core/Credential_Generator/random/random.h"
 #include "src/Core/Credential_Generator/file/file.h"
 
-char* Username_generator();
+char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]);
 char* password_generator(int password_length);
 char* Passphrase_generator (int wordcount, char wordlist_path_1[512]);
 char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_path, char* surname_file_path);
@@ -52,10 +52,10 @@ int main() {
 
 			printf("\nEnter path 1\n\n");
 			printf("path 1: ");
-			scanf("%s", &username_path_1);
+			scanf("%s", username_path_1);
             printf("\nEnter path 2\n\n");
 			printf("path 1: ");
-			scanf("%s", &username_path_2);
+			scanf("%s", username_path_2);
 
 			char* username = Username_generator(username_path_1, username_path_2);
 			printf ("\nYour password: %s\n", username);
@@ -71,7 +71,7 @@ int main() {
 			scanf("%d", &password_length);
 
 			if (password_length >! 0 && password_length <! 512) {
-				password_length == 20;
+				password_length = 20;
 			}
 
 			char* password = password_generator(password_length);
@@ -92,7 +92,7 @@ int main() {
 
 			printf("\nEnter the full path to your wordlist\n");
 			printf("Wordlist path: ");
-			scanf("%s", &Passphase_file_path_1);
+			scanf("%s", Passphase_file_path_1);
 
 			char* passphrase = Passphrase_generator(passphrase_length, Passphase_file_path_1);
 			printf ("\n%s\n", passphrase);
@@ -165,7 +165,7 @@ char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]) {
 	path_1 = wordlist_path_1;
 
 	if(wordlist_path_1 == NULL || path_1_validity == false) {
-		wordlist_path_1 == "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt";
+		wordlist_path_1 = "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt";
 	}	
 
 	word1 = get_random_UTF8_file_line(wordlist_path_1);
@@ -181,7 +181,7 @@ char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]) {
 	path_2 = wordlist_path_2;
 
 	if (wordlist_path_2 == NULL || path_2_validity == false) {
-		wordlist_path_2 == "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt";
+		wordlist_path_2 = "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt";
 	}
 
 	word2 = get_random_UTF8_file_line(wordlist_path_2);
@@ -242,10 +242,11 @@ char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_pat
 	char* surname = NULL;
 	char* full_name = NULL;
 
+	//First name
 	bool first_validity;
 	first_validity = check_file_validity(first_name_file_path);
 
-	if(first_validity = true) {
+	if(first_validity == true) {
 		first = get_random_UTF8_file_line(first_name_file_path);
 	} else {
 		first = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/First_names.txt");
@@ -254,12 +255,11 @@ char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_pat
 	if (!first) return NULL;
 	trim_whitespace(first);
 
-
-
+	//Middle name
 	bool middle_validity;
 	middle_validity = check_file_validity(middle_name_file_path);
 
-	if(middle_validity = true) {
+	if(middle_validity == true) {
 		middle = get_random_UTF8_file_line(middle_name_file_path);
 	} else {
 		middle = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Middle_name.txt");
@@ -269,10 +269,11 @@ char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_pat
 	trim_whitespace(middle);
 
 
+	//Last name
 	bool last_validity = false;
 
 	last_validity = check_file_validity(surname_file_path);
-	if(last_validity = true) {
+	if(last_validity == true) {
 		surname = get_random_UTF8_file_line(surname_file_path);
 	} else {
 		surname = get_random_UTF8_file_line("/home/anon/Personal/Code/Credential_Generator_C/Files/Surname_list.txt");
