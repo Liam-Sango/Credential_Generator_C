@@ -54,10 +54,10 @@ int main() {
 			char username_path_1[512] = "";
 			char username_path_2[512] = "";
 
-			printf("\nEnter path 1\n\n");
+			printf("\nEnter path 1 (Enter nothing to use default file)\n\n");
 			printf("path 1: ");
 			scanf("%s", username_path_1);
-            printf("\nEnter path 2\n\n");
+            printf("\nEnter path 2 (Enter nothing to use default file)\n\n");
 			printf("path 1: ");
 			scanf("%s", username_path_2);
 
@@ -92,11 +92,11 @@ int main() {
 
 			printf("\nHow many words do you want in your passphrase?\n");
 			printf("Desired Length:");
-			scanf("%d", &passphrase_length);
 
+			scanf("%d", &passphrase_length);
 			char Passphase_file_path_1[512] = "";
 
-			printf("\nEnter the full path to your wordlist\n");
+			printf("\nEnter the full path to your wordlist (Enter nothing to use default file)\n");
 			printf("Wordlist path: ");
 			scanf("%s", Passphase_file_path_1);
 
@@ -109,22 +109,44 @@ int main() {
 			printf("\nYou selected: Full Name generator!\n");
 			printf("Good Choice!\n");
 
-			
-			char* full_name = Full_Name_generator("", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt");
+
+			printf("Enter your First path (Enter nothing to use default file)\n");
+			char full_name_first_name_path[512] = "";
+			scanf("%s", full_name_first_name_path);
+
+			printf("Second path (Enter nothing to use default file)\n");
+			char full_name_middle_name_path[512] = "";
+			scanf("%s", full_name_middle_name_path);
+
+			printf("surname path( Enter nothing to use default file)\n");
+			char full_name_surname_path[512] = "";
+			scanf("%s", full_name_first_name_path);
+
+	
+			char* full_name = Full_Name_generator(full_name_first_name_path, full_name_middle_name_path, full_name_surname_path);
 			printf ("\n%s\n", full_name);
 			break;
 
 		//Unfinished (User facing UI)
 		case 5:
-		    printf("Random Number generator");
+		    printf("\nYou selected: Random Number Generator\n");
+			printf("Good Choice!\n");
 
-		    int upper_limit = 10000;
-			int lower_limit = 1;
+			int lower_limit = 0;
+		    int upper_limit = 1000;
 			
+			printf("\nEnter the lowest potential number you wish to generate (Default == 0)\n");
+			printf("Your upper limit: ");
+			scanf("%i", &lower_limit);
+
+			printf("\nEnter the highest potential number you wish to generate (Default == 1000)\n");
+			printf("your upper limit: ");
+			scanf("%i", &upper_limit);
+	
 			unsigned long long int temp_number = Generate_random_number(lower_limit, upper_limit);
 			int number = temp_number;
 
-			printf("\n%d\n", number);
+			printf("\nYour number: %d\n", number);
 			break;
 
 	
