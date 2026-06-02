@@ -13,6 +13,8 @@ char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_pat
 static char* trim_whitespace(char* str);
 
 int main() {
+
+	    
 	    //Welcome the user
 	    printf("Welcome to the credential generator\n");
 		printf("\n Please Select a menu item\n\n");
@@ -43,6 +45,8 @@ int main() {
 		//use switch statement to seperate menus.
 		switch  (selector_buffer)
 		{
+
+		// Finished (Both sides)
 		case 1:
 			printf("\nYou selected: Username generator!\n");
 			printf("Good Choice!\n");
@@ -61,6 +65,7 @@ int main() {
 			printf ("\nYour password: %s\n", username);
 			break;
 
+		//Done (Both sides)
 		case 2:
 		    printf("\nYou selected: Password generator!\n");
 			printf("Good Choice!\n");
@@ -78,6 +83,7 @@ int main() {
 			printf ("\nYour Password: %s\n", password);
 			break;
 
+		//finished (Both sides)
 		case 3:
 			printf("\nYou selected: Passphrase generator!\n");
 			printf("Good Choice!\n");
@@ -98,15 +104,17 @@ int main() {
 			printf ("\n%s\n", passphrase);
 			break;
 
+		//Unfinished (User facing UI)
 		case 4:
 			printf("\nYou selected: Full Name generator!\n");
 			printf("Good Choice!\n");
 
 			
-			char* full_name = Full_Name_generator("/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt");
+			char* full_name = Full_Name_generator("", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt", "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt");
 			printf ("\n%s\n", full_name);
 			break;
 
+		//Unfinished (User facing UI)
 		case 5:
 		    printf("Random Number generator");
 
@@ -119,6 +127,8 @@ int main() {
 			printf("\n%d\n", number);
 			break;
 
+	
+		//Unfinished (Both user and program facing)
 		case 6:
 			printf("Unicode String generator");
 
@@ -218,6 +228,14 @@ char* password_generator(int password_length) {
 // Phrase generator
 //FORMAT: Random_phrase
 char* Passphrase_generator(int word_count, char wordlist_path[512]) {
+
+	bool wordlist_path_validity;
+
+	wordlist_path_validity = check_file_validity(wordlist_path); 
+	
+	if (wordlist_path_validity == false) {
+		wordlist_path = "/home/anon/Personal/Code/Credential_Generator_C/Files/passphrase_list.txt";
+	} 
 
 	char* phrase = Generate_Random_Phrase(wordlist_path, word_count);
 	if (!phrase) return NULL;
