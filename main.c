@@ -34,7 +34,7 @@ int main() {
 		while (selector_buffer == 0) {;
 			scanf ("%d", &selector_buffer);
 
-			if (selector_buffer >= 1 && selector_buffer <= 6) {
+			if (selector_buffer >= 1 && selector_buffer < 7) {
 				break;
 				
 			} else {
@@ -69,9 +69,9 @@ int main() {
 		case 2:
 		    printf("\nYou selected: Password generator!\n");
 			printf("Good Choice!\n");
-			int password_length;
+			int password_length = 20;
 
-			printf("\nEnter your password length\n");
+			printf("\nEnter your password length (Default 20)\n");
 			printf("length: ");
 			scanf("%d", &password_length);
 
@@ -104,7 +104,7 @@ int main() {
 			printf ("\n%s\n", passphrase);
 			break;
 
-		//Unfinished (User facing UI)
+		//Finished (User facing UI)
 		case 4:
 			printf("\nYou selected: Full Name generator!\n");
 			printf("Good Choice!\n");
@@ -127,7 +127,7 @@ int main() {
 			printf ("\n%s\n", full_name);
 			break;
 
-		//Unfinished (User facing UI)
+		//Finished (User facing UI)
 		case 5:
 		    printf("\nYou selected: Random Number Generator\n");
 			printf("Good Choice!\n");
@@ -152,16 +152,40 @@ int main() {
 	
 		//Unfinished (Both user and program facing)
 		case 6:
-			printf("Unicode String generator");
+			printf("\nYou selected: Random Number Generator\n");
+			printf("Good Choice!\n");
 
-			UChar32 str_lower_limit = 0x21;
-	        UChar32 str_upper_limit = 0x7E;
+			printf("\nEnter how long you wish the generated string to be (Default == 20)");
+			printf("\nYour Desired string length: ");
 			int str_length = 20;
+			scanf("%i", &str_length);
+
+			printf("\n");
+
+			printf("Enter the lowest potential unicode character you with to generate as a hexadecimal number (Default == 33)");
+			printf("\nYour lowest potential number: ");
+			int int_lower_limit = 33;
+			scanf("%i", &int_lower_limit);
+
+			printf("\n");
+
+		    printf("Enter the highest potential unicode character you with to generate as a hexadecimal number (Default == 126)");
+			printf("\nYour lowest potential number: ");
+			int int_upper_limit = 126;
+			scanf("%i", &int_upper_limit);
+			
+			UChar32 str_lower_limit = (UChar32)int_lower_limit;
+	        UChar32 str_upper_limit = (UChar32)int_upper_limit;
+			
 
 			char* rand_string = Generate_Random_UTF8_string(str_length, str_lower_limit, str_upper_limit);
 
-			printf("\n%s\n", rand_string);
-			break;
+			if (rand_string == NULL) {
+				printf("\n\noops, Unfortunately you entered a unicode range with restricted characters, please restart the program and try again.");
+			} else { 
+				printf("\nYour unicode string: %s\n", rand_string);
+			}
+			break;			
 		default:
 			break;
 		}
