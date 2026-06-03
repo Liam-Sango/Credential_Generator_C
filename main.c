@@ -6,9 +6,9 @@
 #include "src/Core/Credential_Generator/random/random.h"
 #include "src/Core/Credential_Generator/file/file.h"
 
-char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]);
+char* Username_generator(char* wordlist_path_1, char* wordlist_path_2);
 char* password_generator(int password_length);
-char* Passphrase_generator (int wordcount, char wordlist_path_1[512]);
+char* Passphrase_generator (int wordcount, char wordlist_path[512]);
 char* Full_Name_generator(char* first_name_file_path, char* middle_name_file_path, char* surname_file_path);
 static char* trim_whitespace(char* str);
 
@@ -16,7 +16,7 @@ int main() {
 
 	    
 	    //Welcome the user
-	    printf("Welcome to the credential generator\n");
+	    printf("Welcome to liams credential generator\n");
 		printf("\n Please Select a menu item\n\n");
 
 		printf(" 1: Username Generator ");
@@ -54,10 +54,10 @@ int main() {
 			char username_path_1[512] = "";
 			char username_path_2[512] = "";
 
-			printf("\nEnter path 1 (Enter nothing to use default file)\n\n");
+			printf("\nEnter path 1 (Enter any other text to use default file)\n\n");
 			printf("path 1: ");
 			scanf("%s", username_path_1);
-            printf("\nEnter path 2 (Enter nothing to use default file)\n\n");
+            printf("\nEnter path 2 (Enter any other text to use default file)\n\n");
 			printf("path 1: ");
 			scanf("%s", username_path_2);
 
@@ -96,7 +96,7 @@ int main() {
 			scanf("%d", &passphrase_length);
 			char Passphase_file_path_1[512] = "";
 
-			printf("\nEnter the full path to your wordlist (Enter nothing to use default file)\n");
+			printf("\nEnter the full path to your wordlist (Enter any other valid text to use the default included file)\n");
 			printf("Wordlist path: ");
 			scanf("%s", Passphase_file_path_1);
 
@@ -150,9 +150,9 @@ int main() {
 			break;
 
 	
-		//Unfinished (Both user and program facing)
+		//finished (Both user and program facing)
 		case 6:
-			printf("\nYou selected: Random Number Generator\n");
+			printf("\nYou selected: Unicode string generator\n");
 			printf("Good Choice!\n");
 
 			printf("\nEnter how long you wish the generated string to be (Default == 20)");
@@ -170,7 +170,7 @@ int main() {
 			printf("\n");
 
 		    printf("Enter the highest potential unicode character you with to generate as a hexadecimal number (Default == 126)");
-			printf("\nYour lowest potential number: ");
+			printf("\nYour highest potential number: ");
 			int int_upper_limit = 126;
 			scanf("%i", &int_upper_limit);
 			
@@ -210,37 +210,34 @@ static char* trim_whitespace(char* str) {
 //Phrase generator, UTF8 string generator, Random number generator
 //FORMAT: Random_phrase_1, Random_Phrase_2, Random_number
 char* Username_generator(char wordlist_path_1[512], char wordlist_path_2[512]) {
-	char* word1 = NULL;
-	char* word2 = NULL;
 	char* username = NULL;
 
+
 	//Word 1
-	bool path_1_validity = check_file_validity(wordlist_path_1);
+	bool path_1_validity;
+	path_1_validity = check_file_validity(wordlist_path_1);
+	
+	if(path_1_validity == false) {
+		wordlist_path_1 = "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_1.txt";
+	}
 
-	char* path_1 = NULL;
-	path_1 = wordlist_path_1;
+	char* word1 = get_random_UTF8_file_line(wordlist_path_1);
 
-	if(wordlist_path_1 == NULL || path_1_validity == false) {
-		wordlist_path_1 = "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list.txt";
-	}	
-
-	word1 = get_random_UTF8_file_line(wordlist_path_1);
-	if (!word1) return NULL;
+	if (!word1) {return NULL;}
 	trim_whitespace(word1);
 
 
     //Word 2
 
-	bool path_2_validity = check_file_validity(wordlist_path_2);
+	bool path_2_validity;
+	path_2_validity = check_file_validity(wordlist_path_2);
 
-    char* path_2 = NULL;
-	path_2 = wordlist_path_2;
-
-	if (wordlist_path_2 == NULL || path_2_validity == false) {
+	if (path_2_validity == false) {
 		wordlist_path_2 = "/home/anon/Personal/Code/Credential_Generator_C/Files/username_word_list_2.txt";
 	}
 
-	word2 = get_random_UTF8_file_line(wordlist_path_2);
+	char* word2 = get_random_UTF8_file_line(wordlist_path_2);
+
 	if (!word2) { free(word1); return NULL; }
 	trim_whitespace(word2);
 
