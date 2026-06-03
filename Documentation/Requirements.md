@@ -1,2 +1,2 @@
 # Requires OPENSSL
-# Requires ICU UNICODE C LIBRARY
+# Requires ICU UNICODE
