@@ -1,21 +1,41 @@
-sloped
-trustee
-batch
-headgear
-marzipan
-basin
-neurotic
-staff
-founding
-laurel
-epidural
-paparazzi
-overturn
-untidy
-campus
-coveted
-batting
-endanger
-grout
-man
-like
+    cheap
+    eminent
+    excellent
+    stale
+    gruesome
+    frequent
+    equable
+    shaggy
+    defective
+    arrogant
+    offbeat
+    lacking
+    tasteful
+    elastic
+    youthful
+    crabby
+    foamy
+    helpless
+    economic
+    enchanted
+    murky
+    calm
+    boundless
+    marvelous
+    uppity
+    telling
+    chilly
+    fantastic
+    unable
+    profuse
+    possessive
+    naive
+    ignorant
+    normal
+    truculent
+    ad hoc
+    magenta
+    whole
+    tough
+    parched
+

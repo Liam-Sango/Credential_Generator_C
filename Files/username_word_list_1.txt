@@ -1,21 +1,43 @@
-sloped
-trustee
-batch
-headgear
-marzipan
-basin
-neurotic
-staff
-founding
-laurel
-epidural
-paparazzi
-overturn
-untidy
-campus
-coveted
-batting
-endanger
-grout
-man
-like
+
+
+    useful
+    woozy
+    keen
+    capricious
+    stereotyped
+    tricky
+    descriptive
+    gaping
+    animated
+    sad
+    noisy
+    homeless
+    inner
+    optimal
+    alert
+    eager
+    brainy
+    goofy
+    useless
+    sick
+    absorbing
+    closed
+    robust
+    gullible
+    dysfunctional
+    aspiring
+    similar
+    harsh
+    smiling
+    cruel
+    moaning
+    obeisant
+    ragged
+    filthy
+    lackadaisical
+    scintillating
+    gusty
+    fine
+    quaint
+    sorry
+
